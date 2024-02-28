@@ -9,6 +9,6 @@ Can add as many clients as you desire, just run the code in another terminal win
 Make sure to update any paths within server.py to make sure you are loading in the BERT model
 
 SMS spam collection is a dataset taken from https://archive.ics.uci.edu/dataset/228/sms+spam+collection
-For data exploration, preprocessing and usage of other machine learning models check SMS Data Overview, Preprocessing 
+For data exploration, preprocessing and usage of other machine learning models check SMS Data Overview, Processing, and Traditional Models.ipynb
 
 
