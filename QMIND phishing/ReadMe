@@ -1,4 +1,4 @@
 You will need to create a credentials file with email and password
-To get the machine learning model you will need to run the following script:
+To get the machine learning model you will need to run the following script: Bert_Model_Final.ipynb
 Then change the path to where the model was saved
 Dataset can be found at: https://www.kaggle.com/datasets/taruntiwarihp/phishing-site-urls
