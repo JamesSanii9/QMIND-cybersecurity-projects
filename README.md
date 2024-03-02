@@ -9,6 +9,6 @@ Technical Project Manager:
 James Sanii
 
 Design Team Members:
-Deniz Aydin
-Chris Wang
+Deniz Aydin,
+Chris Wang,
 Matthew Pirie
