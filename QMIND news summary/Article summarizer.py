@@ -3,41 +3,37 @@ import nltk
 from textblob import TextBlob
 from newspaper import Article
 
-#import os
-#import shutil
+import os
+import shutil
 import pandas as pd
-#import tensorflow as tf
-#import tensorflow_hub as hub
-#import tensorflow_text as text
-#from official.nlp import optimization
-#import matplotlib.pyplot as plt
+import tensorflow as tf
+import tensorflow_hub as hub
+import tensorflow_text as text
+from official.nlp import optimization
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, KFold
 from sklearn.metrics import confusion_matrix
 import numpy as np
-#import itertools
+import itertools
 from joblib import load
-import nltk
-nltk.download('punkt')
 
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+#joblib angle
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns 
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn import feature_extraction, linear_model, model_selection, preprocessing
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+import pickle
+# Path to the directory containing the saved model files
+model_path = "C:/Users/17jcs9/Downloads/model fake news/model/fake_news_bert"
 
-tokenizer = AutoTokenizer.from_pretrained("hamzab/roberta-fake-news-classification")
-
-model = AutoModelForSequenceClassification.from_pretrained("hamzab/roberta-fake-news-classification")
-
-print("got here")
-
-import torch
-def predict_fake(title,text):
-    input_str = "<title>" + title + "<content>" +  text + "<end>"
-    input_ids = tokenizer.encode_plus(input_str, max_length=512, padding="max_length", truncation=True, return_tensors="pt")
-    device =  'cuda' if torch.cuda.is_available() else 'cpu'
-    model.to(device)
-    with torch.no_grad():
-        output = model(input_ids["input_ids"].to(device), attention_mask=input_ids["attention_mask"].to(device))
-    return dict(zip(["Fake","Real"], [x.item() for x in list(torch.nn.Softmax()(output.logits)[0])] ))
-    
-
+# Load the model
+loaded_model = tf.keras.models.load_model(model_path, compile=False)
 
 #with open('C:/Users/17jcs9/Downloads/model.pkl', 'rb') as f:
     #loaded_model = pickle.load(f)
@@ -99,12 +95,15 @@ def summarize():
 
     print(input)
     data = pd.DataFrame(data={'text': [input]})
+    #data['text'] = data['text'].apply(lambda x: x.lower())
+    #data['text'] = data['text'].apply(punctuation_removal)
+    #data["text"] = data['text'].apply(lambda x: ' '.join([word for word in x.split() if word not in (stop)]))
 
     fake.delete("1.0", "end")
     #add model pred here
-    pred = (predict_fake(article.title, article.text))
+    pred = loaded_model.predict(data)[0][0]
     print(pred)
-    if pred["Fake"] < pred["Real"]:
+    if pred > 0.5:
         fake.insert("1.0", f"Real")
     else:
         fake.insert("1.0", f"Fake")
